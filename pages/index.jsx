@@ -1,7 +1,12 @@
 export default function Home() {
   return (
     <div className="overflow-hidden">
-      <div className="bg-purple-400 h-[45vh] p-6 mb-4 flex items-center justify-center">
+      <div className="h-[45vh] p-6 mb-4 flex items-center justify-center relative bg">
+        <h3 className="absolute top-2 left-3">
+          <div className="font-bold">Question: <span id="totalQuestion">0</span></div>
+          <div className="font-bold">Correct: <span id="totalCorrect">0</span></div>
+          <div className="font-bold">Incorrect: <span id="totalIncorrect">0</span></div>
+        </h3>
         <div className="font-bold text-4xl select-none">Bebek bebek apa yang bikin kzl?</div>
       </div>
       <div className="h-[50vh] flex justify-between items-center space-x-5 mx-5">
