@@ -9,28 +9,27 @@ export default function Home({ question }) {
   const [timer, setTimer] = useState(100)
 
   useEffect(() => {
-    let timerEl = document.getElementById('timer')
-    // timerEl.style.width = `${timer}%`
-  })
+    const interval = setInterval(() => {
+      if (timer > 0) setTimer((timer) => Math.floor(timer - Math.floor(question[currentQuestionIndex].time / 10000)))
+    }, 1000)
+
+    if (timer == 0) setCurrentQuestionIndex(currentQuestionIndex + 1)
+    if (timer == 0) setTimer(100)
+    if (timer == 0) setIncorrectAnswerTotal(incorrectAnswerTotal + 1)
+
+    return () => clearInterval(interval)
+  }, [timer])
 
   function handleClick(ans) {
-    ans === currentQuestionAnswer ? setCorrectAnswerTotal(correctAnswerTotal + 1) : setIncorrectAnswerTotal(incorrectAnswerTotal + 1)
+    (ans === currentQuestionAnswer) ? setCorrectAnswerTotal(correctAnswerTotal + 1) : setIncorrectAnswerTotal(incorrectAnswerTotal + 1)
+    setTimer(100)
     setCurrentQuestionIndex(currentQuestionIndex + 1)
     setCurrentQuestionAnswer(question[question.length - 1].answer)
   }
 
-  function timerCountdown() {
-    setInterval(() => {
-      setTimer((timer > 0) ? timer - 10 : 0)
-      timer == 0 ?? setIsOver(true)
-    }, 1000)
-  }
-
-  timerCountdown()
-
   return (
     <div className="overflow-hidden select-none relative">
-      <div className="absolute top-0 h-2 z-50 bg-gray-300 w-full" id="timer"></div>
+      <div className="absolute top-0 h-2 z-50 bg-gray-300 w-full" style={{ width: `${timer}%` }}></div>
       <div className="h-[45vh] p-6 mb-4 flex items-center justify-center relative">
         <div className="bg-gradient-to-b from-blue-500 to-white absolute top-0 left-0 right-0 bottom-0"></div>
         <h3 className="absolute top-2 left-3 z-50">
