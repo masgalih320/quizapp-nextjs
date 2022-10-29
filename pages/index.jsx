@@ -10,7 +10,7 @@ export default function Home({ question }) {
 
   useEffect(() => {
     let timerEl = document.getElementById('timer')
-    timerEl.style.width = `${timer}%`
+    // timerEl.style.width = `${timer}%`
   })
 
   function handleClick(ans) {
@@ -20,9 +20,9 @@ export default function Home({ question }) {
   }
 
   function timerCountdown() {
-    setTimeout(() => {
+    setInterval(() => {
       setTimer((timer > 0) ? timer - 10 : 0)
-      timer == 0 ? setIsOver(true) : timerCountdown()
+      timer == 0 ?? setIsOver(true)
     }, 1000)
   }
 
@@ -38,7 +38,7 @@ export default function Home({ question }) {
           <div className="font-bold">Correct: <span id="totalCorrect">{correctAnswerTotal}</span></div>
           <div className="font-bold">Incorrect: <span id="totalIncorrect">{incorrectAnswerTotal}</span></div>
         </h3>
-        <div className="font-bold text-4xl z-50 text-center">{timer}{question.length - 1 >= currentQuestionIndex ? question[currentQuestionIndex].question : ""}</div>
+        <div className="font-bold text-4xl z-50 text-center">{question.length - 1 >= currentQuestionIndex ? question[currentQuestionIndex].question : ""}</div>
       </div>
       <div className="h-[50vh] flex justify-between items-center space-x-5 mx-5">
         {question.length - 1 >= currentQuestionIndex ? question[currentQuestionIndex].choices.map((seg) => {
