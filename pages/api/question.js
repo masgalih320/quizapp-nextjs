@@ -16,6 +16,12 @@ export default function handler(req, res) {
         answer: 1997,
         choices: [1997, 2002, 2013, 1945],
       },
+      {
+        time: 20000,
+        question: "Kepanjangan DPR adalah?",
+        answer: "Dewan Perwakilan Rakyat",
+        choices: ["Dewan Perwakilan Daerah", "Dewan Perwakilan Rakyat", "Dewan Pribumi Rahasia", "Dewan Pengkhianat Rakyat"],
+      },
     ],
   });
 }

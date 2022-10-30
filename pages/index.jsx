@@ -1,44 +1,65 @@
 import { useEffect, useState } from "react"
 
 export default function Home({ question }) {
+  const [isOver, setIsOver] = useState(false)
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
-  const [currentQuestionAnswer, setCurrentQuestionAnswer] = useState(question[currentQuestionIndex].answer)
+  const [currentQuestionAnswer, setCurrentQuestionAnswer] = useState(question[currentQuestionIndex] ? question[currentQuestionIndex].answer : "")
   const [correctAnswerTotal, setCorrectAnswerTotal] = useState(0)
   const [incorrectAnswerTotal, setIncorrectAnswerTotal] = useState(0)
-  const [isOver, setIsOver] = useState(false)
   const [timer, setTimer] = useState(100)
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (timer > 0) setTimer((timer) => Math.floor(timer - Math.floor(question[currentQuestionIndex].time / 10000)))
-    }, 1000)
+    if (!isOver) {
+      const interval = setInterval(() => {
+        if (timer > 0) setTimer((timer) => Math.floor(timer - Math.floor(question[currentQuestionIndex].time / 1000)))
+      }, 1000)
 
-    if (timer == 0) setCurrentQuestionIndex(currentQuestionIndex + 1)
-    if (timer == 0) setTimer(100)
-    if (timer == 0) setIncorrectAnswerTotal(incorrectAnswerTotal + 1)
+      if (timer == 0 && question.length - 1 == currentQuestionIndex) setIsOver(true)
+      if (timer == 0 && isOver == false) setCurrentQuestionIndex(currentQuestionIndex + 1)
+      if (timer == 0 && isOver == false) setTimer(100)
+      if (timer == 0 && isOver == false) setIncorrectAnswerTotal(incorrectAnswerTotal + 1)
 
-    return () => clearInterval(interval)
+      return () => clearInterval(interval)
+    } else {
+      setTimer(0)
+    }
   }, [timer])
 
   function handleClick(ans) {
-    (ans === currentQuestionAnswer) ? setCorrectAnswerTotal(correctAnswerTotal + 1) : setIncorrectAnswerTotal(incorrectAnswerTotal + 1)
-    setTimer(100)
-    setCurrentQuestionIndex(currentQuestionIndex + 1)
-    setCurrentQuestionAnswer(question[question.length - 1].answer)
+    if (question.length - 1 === currentQuestionIndex) {
+      setTimer(0)
+      setIsOver(true)
+    } else {
+      ans === currentQuestionAnswer ? setCorrectAnswerTotal(correctAnswerTotal + 1) : setIncorrectAnswerTotal(incorrectAnswerTotal + 1)
+      setTimer(100)
+      setCurrentQuestionIndex(currentQuestionIndex + 1)
+      setCurrentQuestionAnswer(question[currentQuestionIndex].answer)
+      console.log(currentQuestionIndex);
+    }
   }
 
   return (
-    <div className="overflow-hidden select-none relative">
-      <div className="absolute top-0 h-2 z-50 bg-gray-300 w-full" style={{ width: `${timer}%` }}></div>
+    <div className="overflow-hidden select-none relative h-screen">
+      {isOver ? <div className="backdrop-blur-md z-50 absolute top-0 right-0 bottom-0 left-0 flex justify-center items-center">
+        <div className="bg-gray-200 p-6 w-full md:w-1/2 2xl:w-1/3 h-[50vh] shadow-2xl mx-auto flex justify-center items-center">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold">Your score</h2>
+            <h3 className="text-8xl">{correctAnswerTotal}</h3>
+          </div>
+        </div>
+      </div> : ""}
+
+      <div className="absolute top-0 h-2 z-10 bg-gray-300 w-full" style={{ width: `${timer}%` }}></div>
       <div className="h-[45vh] p-6 mb-4 flex items-center justify-center relative">
         <div className="bg-gradient-to-b from-blue-500 to-white absolute top-0 left-0 right-0 bottom-0"></div>
-        <h3 className="absolute top-2 left-3 z-50">
+        <h3 className="absolute top-2 left-3 z-10">
           <div className="font-bold">Question: <span id="totalQuestion">{question.length}</span></div>
           <div className="font-bold">Correct: <span id="totalCorrect">{correctAnswerTotal}</span></div>
           <div className="font-bold">Incorrect: <span id="totalIncorrect">{incorrectAnswerTotal}</span></div>
         </h3>
-        <div className="font-bold text-4xl z-50 text-center">{question.length - 1 >= currentQuestionIndex ? question[currentQuestionIndex].question : ""}</div>
+        <div className="font-bold text-4xl z-10 text-center">{question.length - 1 >= currentQuestionIndex ? question[currentQuestionIndex].question : ""}</div>
       </div>
+
       <div className="h-[50vh] flex justify-between items-center space-x-5 mx-5">
         {question.length - 1 >= currentQuestionIndex ? question[currentQuestionIndex].choices.map((seg) => {
           return (
