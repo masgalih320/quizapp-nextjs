@@ -26,17 +26,13 @@ export default function Home({ question }) {
   }, [timer])
 
   function handleClick(ans) {
-    if (question.length - 1 === currentQuestionIndex) {
-      setTimer(0)
-      setIsOver(true)
-    } else {
-      setTimer(100)
+    setCurrentQuestionIndex((currentQuestionIndex) => {
       ans === currentQuestionAnswer ? setCorrectAnswerTotal(correctAnswerTotal + 1) : setIncorrectAnswerTotal(incorrectAnswerTotal + 1)
-      setCurrentQuestionIndex((currentQuestionIndex) => {
-        setCurrentQuestionAnswer(question[currentQuestionIndex + 1].answer)
-        return currentQuestionIndex + 1
-      })
-    }
+      if (timer !== 0 && isOver == false && question.length - 1 == currentQuestionIndex) return setIsOver(true)
+      if (timer !== 0 && isOver == false) setTimer(100)
+      if (timer !== 0 && isOver == false) setCurrentQuestionAnswer(question[currentQuestionIndex + 1].answer)
+      if (timer !== 0 && isOver == false) return currentQuestionIndex + 1
+    })
   }
 
   return (

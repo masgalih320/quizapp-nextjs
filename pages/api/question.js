@@ -22,6 +22,12 @@ export default function handler(req, res) {
         answer: "Dewan Perwakilan Rakyat",
         choices: ["Dewan Perwakilan Daerah", "Dewan Perwakilan Rakyat", "Dewan Pribumi Rahasia", "Dewan Pengkhianat Rakyat"],
       },
+      {
+        time: 10000,
+        question: "Kepanjangan TNI adalah?",
+        answer: "Tentara Nasional Indonesia",
+        choices: ["Tentara Nasional Indonesia", "Tau Nama Indonesia", "Takutnya Negara Indonesia", "Tinggal Nama Ini"],
+      },
     ],
   });
 }
