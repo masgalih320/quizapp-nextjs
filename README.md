@@ -28,6 +28,7 @@
 - Before play screen (user can login/input username here)
 - Choose quiz room screen (public quiz)
 - Quiz room (room code for private quiz)
+- Responsive page
 - More interactive
 
 ## Installation Guide
