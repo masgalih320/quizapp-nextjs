@@ -30,11 +30,12 @@ export default function Home({ question }) {
       setTimer(0)
       setIsOver(true)
     } else {
-      ans === currentQuestionAnswer ? setCorrectAnswerTotal(correctAnswerTotal + 1) : setIncorrectAnswerTotal(incorrectAnswerTotal + 1)
       setTimer(100)
-      setCurrentQuestionIndex(currentQuestionIndex + 1)
-      setCurrentQuestionAnswer(question[currentQuestionIndex].answer)
-      console.log(currentQuestionIndex);
+      ans === currentQuestionAnswer ? setCorrectAnswerTotal(correctAnswerTotal + 1) : setIncorrectAnswerTotal(incorrectAnswerTotal + 1)
+      setCurrentQuestionIndex((currentQuestionIndex) => {
+        setCurrentQuestionAnswer(question[currentQuestionIndex + 1].answer)
+        return currentQuestionIndex + 1
+      })
     }
   }
 
@@ -43,8 +44,14 @@ export default function Home({ question }) {
       {isOver ? <div className="backdrop-blur-md z-50 absolute top-0 right-0 bottom-0 left-0 flex justify-center items-center">
         <div className="bg-gray-200 p-6 w-full md:w-1/2 2xl:w-1/3 h-[50vh] shadow-2xl mx-auto flex justify-center items-center">
           <div className="text-center">
+            <h2 className="text-3xl font-bold">GAME OVER</h2>
             <h2 className="text-3xl font-bold">Your score</h2>
-            <h3 className="text-8xl">{correctAnswerTotal}</h3>
+            <div className="flex items-center justify-center">
+              <div className="text-center">
+                <h3 className="text-8xl">{correctAnswerTotal} / {question.length}</h3>
+                <div className="mt-4">Incorrect Answer: {incorrectAnswerTotal}</div>
+              </div>
+            </div>
           </div>
         </div>
       </div> : ""}
