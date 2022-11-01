@@ -1,6 +1,8 @@
+import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 
 export default function Home({ question }) {
+  const router = useRouter()
   const [isOver, setIsOver] = useState(false)
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [currentQuestionAnswer, setCurrentQuestionAnswer] = useState(question[currentQuestionIndex] ? question[currentQuestionIndex].answer : "")
@@ -38,14 +40,14 @@ export default function Home({ question }) {
   return (
     <div className="overflow-hidden select-none relative h-screen">
       {isOver ? <div className="backdrop-blur-md z-50 absolute top-0 right-0 bottom-0 left-0 flex justify-center items-center">
-        <div className="bg-gray-200 p-6 w-full md:w-1/2 2xl:w-1/3 h-[50vh] shadow-2xl mx-auto flex justify-center items-center">
+        <div className="bg-gray-100 p-6 w-full md:w-1/2 2xl:w-1/3 border shadow-2xl mx-auto flex justify-center items-center">
           <div className="text-center">
-            <h2 className="text-3xl font-bold">GAME OVER</h2>
             <h2 className="text-3xl font-bold">Your score</h2>
             <div className="flex items-center justify-center">
               <div className="text-center">
                 <h3 className="text-8xl">{correctAnswerTotal} / {question.length}</h3>
-                <div className="mt-4">Incorrect Answer: {incorrectAnswerTotal}</div>
+                <div className="mt-4 mb-4">Incorrect Answer: {incorrectAnswerTotal}</div>
+                <button className="bg-gradient-to-r from-cyan-500 to-blue-500 px-5 py-2 rounded-full text-white font-bold hover:opacity-75" type="button" onClick={() => router.reload()}>Play again</button>
               </div>
             </div>
           </div>
