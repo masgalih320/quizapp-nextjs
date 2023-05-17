@@ -1,6 +1,7 @@
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 
+// test
 export default function Home({ question }) {
   const router = useRouter()
   const [isOver, setIsOver] = useState(false)
